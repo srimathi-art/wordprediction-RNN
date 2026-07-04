@@ -69,3 +69,31 @@ model.compile(
 # 8. Train model
 model.fit(X_train, y_train, epochs=300, verbose=1)
 
+# 9. Generate sentence
+def generate_sentence(seed_text, next_words=5):
+    for _ in range(next_words):
+        token_list = tokenizer.texts_to_sequences([seed_text])[0]
+        token_list = pad_sequences(
+            [token_list],
+            maxlen=max_sequence_len - 1,
+            padding="pre"
+        )
+
+        prediction = model.predict(token_list, verbose=0)
+        predicted_index = np.argmax(prediction)
+
+        predicted_word = ""
+
+        for word, index in word_index.items():
+            if index == predicted_index:
+                predicted_word = word
+                break
+
+        seed_text += " " + predicted_word
+
+    return seed_text
+
+# 10. Test
+print(generate_sentence("i love", next_words=4))
+print(generate_sentence("machine learning", next_words=4))
+print(generate_sentence("deep learning", next_words=4))
