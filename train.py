@@ -51,3 +51,21 @@ input_sequences = pad_sequences(
 # 5. Split input and target
 X_train = input_sequences[:, :-1]
 y_train = input_sequences[:, -1]
+
+# 6. Build RNN model
+model = Sequential([
+    Embedding(input_dim=total_words, output_dim=16),
+    SimpleRNN(64),
+    Dense(total_words, activation="softmax")
+])
+
+# 7. Compile model
+model.compile(
+    optimizer="adam",
+    loss="sparse_categorical_crossentropy",
+    metrics=["accuracy"]
+)
+
+# 8. Train model
+model.fit(X_train, y_train, epochs=300, verbose=1)
+
