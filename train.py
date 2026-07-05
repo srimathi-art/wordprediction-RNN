@@ -67,7 +67,7 @@ model.compile(
 )
 
 # 8. Train model
-model.fit(X_train, y_train, epochs=300, verbose=1)
+model.fit(X_train, y_train, epochs=10, verbose=1)
 
 # 9. Generate sentence
 def generate_sentence(seed_text, next_words=5):
